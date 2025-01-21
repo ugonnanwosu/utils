@@ -13,6 +13,7 @@ import each from 'lodash/each'
 import isString from 'lodash/isString'
 import isObject from 'lodash/isObject'
 import isArray from 'lodash/isArray'
+import zipObject from 'lodash/zipObject'
 
 // relative modules
 
@@ -21,9 +22,8 @@ import isArray from 'lodash/isArray'
 export const EVENTS = {
   CHANGE: 'CHANGE',
   CHANGE_OPTIONAL: 'CHANGE_OPTIONAL',
-  SET: 'CHANGE_OPTIONAL',
+  SET: 'SET',
 }
-
 
 /**
  * @param {Object} store
@@ -42,7 +42,7 @@ export function BaseModel(store, options={}) {
 
   let isInitial = true;
 
-  extend(this, new EventEmitter())
+  extend(this, new EventEmitter());
 
   const storeProxy = new Proxy(store, {
 
@@ -91,11 +91,11 @@ export function BaseModel(store, options={}) {
 
     isInitial = false;
 
-    if (_.isString(attributes)) {
+    if (isString(attributes)) {
       attributes = {[attributes]: values};
-    } else if (_.isArray(attributes)) {
-      attributes = _.zipObject(attributes, _.castArray(values));
-    } else if (_.isObject(attributes)) {
+    } else if (isArray(attributes)) {
+      attributes = zipObject(attributes, castArray(values));
+    } else if (isObject(attributes)) {
       /**/
     }
 
