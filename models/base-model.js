@@ -2,16 +2,17 @@
 import EventEmitter from 'wolfy87-eventemitter'
 
 // libs [lodash]
-import defaults from 'lodash/defaults'
-import extend from 'lodash/extend'
-import isEqual from 'lodash/isEqual'
-import _set from 'lodash/set'
 import _get from 'lodash/get'
+import _set from 'lodash/set'
 import castArray from 'lodash/castArray'
+import clone from 'lodash/clone'
+import defaults from 'lodash/defaults'
 import each from 'lodash/each'
-import isString from 'lodash/isString'
-import isObject from 'lodash/isObject'
+import extend from 'lodash/extend'
 import isArray from 'lodash/isArray'
+import isEqual from 'lodash/isEqual'
+import isObject from 'lodash/isObject'
+import isString from 'lodash/isString'
 import zipObject from 'lodash/zipObject'
 
 // relative modules
@@ -20,7 +21,6 @@ import zipObject from 'lodash/zipObject'
 
 export const EVENTS = {
   CHANGE: 'CHANGE',
-  CHANGE_OPTIONAL: 'CHANGE_OPTIONAL',
   SET: 'SET',
 }
 
@@ -39,7 +39,7 @@ export function BaseModel(store, options={}) {
 
   const previousStore = { ...store };
 
-  let isInitial = true;
+  this.isInitial = true;
 
   extend(this, new EventEmitter());
 
@@ -53,14 +53,7 @@ export function BaseModel(store, options={}) {
         return true;
       }
 
-      console.log({
-        previousStore,
-        prop,
-        obj,
-        prev: previousStore[prop]
-      })
-
-      // previous[prop] = clone(obj[prop]);
+      previousStore[prop] = clone(obj[prop]);
       obj[prop] = value;
 
       return true;
@@ -82,13 +75,15 @@ export function BaseModel(store, options={}) {
   function set(attributes, values, options={}) {
     options = defaults(options, {
       silent: false,
+      trace: new Error().stack,
     });
 
     const {
-      silent
+      silent,
+      trace,
     } = options;
 
-    isInitial = false;
+    this.isInitial = false;
 
     if (isString(attributes)) {
       attributes = {[attributes]: values};
@@ -102,22 +97,25 @@ export function BaseModel(store, options={}) {
       _set(storeProxy, prop, value);
 
       if (!silent) {
-        this.emit(`${EVENTS.CHANGE_OPTIONAL}:${prop}`, {
+        this.emit(`${EVENTS.CHANGE}:${prop}`, {
           changedAttribute: prop,
           value,
           changes: attributes,
+          trace,
         });
       }
+
     });
 
     if (!silent) {
-
-      this.emit(EVENTS.CHANGE_OPTIONAL, {
-        changes: attributes
+      this.emit(EVENTS.CHANGE, {
+        changes: attributes,
+        trace,
       });
 
       this.emit(EVENTS.SET, {
-        changes: attributes
+        changes: attributes,
+        trace,
       });
     }
   }
