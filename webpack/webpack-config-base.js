@@ -93,6 +93,7 @@ function WebpackConfigBase(context={}, config={}, options={}) {
       '@babel',
       /^express.+$/,
       /^lodash.+$/,
+      'modernizr',
     ],
 
     stats: {
@@ -124,14 +125,14 @@ function WebpackConfigBase(context={}, config={}, options={}) {
                 ]
               }
             },
-            {
-              loader: 'webpack-conditional-loader'
-            }
+            // {
+            //   loader: 'webpack-conditional-loader'
+            // }
           ],
           include: [
-            // path.resolve(__dirname, `${rootPath}`),
+            path.resolve(__dirname, `${rootPath}`),
             ...includePaths,
-            path.resolve(__dirname, `${rootPath}/../`),
+            // path.resolve(__dirname, `${rootPath}/../`),
           ],
           exclude: [
             /webpack\/runtime/,

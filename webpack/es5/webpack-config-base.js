@@ -127,9 +127,9 @@ function WebpackConfigBase(context={}, config={}, options={}) {
                 presets: ['@babel/preset-react']
               }
             },
-            {
-              loader: 'webpack-conditional-loader'
-            }
+            // {
+            //   loader: 'webpack-conditional-loader'
+            // }
           ],
           include: [
             path.resolve(__dirname, `${rootPath}`),

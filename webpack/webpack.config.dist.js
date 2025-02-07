@@ -14,6 +14,8 @@ const { WebpackManifestPlugin } = WebpackManifestPluginModule;
 
 // const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const WebpackConfigBase = require('./es5/webpack-config-base.js');
+
 // modules
 const webpackAbstractConfig = {
   devtool: 'inline-source-map',
@@ -31,7 +33,6 @@ const webpackAbstractConfig = {
   }
 };
 
-const WebpackConfigBase = require('./es5/webpack-config-base.js');
 const webpackConfigBase = new WebpackConfigBase({
   webpack,
 
@@ -49,13 +50,13 @@ let webpackConfig = _.extend(
     devtool: 'source-map',
 
     entry: {
-      'main': ['./main.jsx']
+      'main': ['./main-prod.jsx']
     },
 
     output: {
       path: `${appRoot}/web/client/dist`,
       publicPath: '/',
-      filename: '[name].[chunkhash].js',
+      filename: '[name].js',
       chunkFilename: '[name].[chunkhash].js',
     },
 
@@ -98,7 +99,6 @@ const CSSLoader = {
   options: {
     modules: false,
     sourceMap: true,
-    minimize: true
   }
 };
 
@@ -129,6 +129,11 @@ webpackConfig.module.rules.push(...[
 webpackConfig.plugins.push(...[
 
   // new OptimizeCssAssetsPlugin(),
+
+  new MiniCssExtractPlugin({
+    filename: '[name].css',
+    chunkFilename: '[name].[chunkhash].css',
+  }),
 
   new WebpackManifestPlugin({
     fileName: 'webpack-manifest.json'
