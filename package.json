@@ -1,0 +1,70 @@
+{
+  "name": "@usn/utils",
+  "version": "0.0.1",
+  "author": "Ugonna Nwosu",
+  "description": "Base level utilities for @usn projects",
+  "branch": "develop",
+  "engines": {
+    "node": ">=20.17.0"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
+    "git-rev": "^0.2.1",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
+    "wolfy87-eventemitter": "^5.2.9",
+    "yup": "^1.4.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/node": "^7.20.7",
+    "@babel/plugin-transform-runtime": "^7.25.4",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/runtime": "^7.26.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-replace": "^6.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
+    "app-root-path": "^3.1.0",
+    "babel-loader": "^9.2.1",
+    "babel-loader-exclude-node-modules-except": "^1.2.1",
+    "babel-plugin-module-resolver": "^5.0.2",
+    "circular-dependency-plugin": "^5.2.2",
+    "config": "^3.3.12",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "git-revision-webpack-plugin": "^5.0.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "minimist": "^1.2.8",
+    "nps": "^5.10.0",
+    "path": "^0.12.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rollup": "^4.30.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "terser-webpack-plugin": "^5.3.11",
+    "webpack": "^5.94.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-manifest-plugin": "^5.0.0",
+    "webpackbar": "^6.0.1"
+  },
+  "scripts": {
+    "build": "babel test.js -d dist --ignore ' ' --config-file ./babel.config.js",
+    "nps": "nps",
+    "test": "babel-node test.js --ignore ' ' --config-file ./babel.config.js",
+    "debug": "babel-node debug.js --ignore ' ' --config-file ./babel.config.js",
+    "webpack-dist": "rm -rf web/client/dist && node_modules/webpack/bin/webpack.js --config old-webpack/webpack.config.dist.js",
+    "reinstall-usn": "rm -rf node_modules/@usn && npm install"
+  },
+  "private": true
+}
