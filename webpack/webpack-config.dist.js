@@ -5,22 +5,21 @@ import _ from 'lodash'
 
 
 // relative modules
+import assignJsMinify from './config-assigns/assign-js-minify'
 import WebpackConfigBase from './webpack-config.base'
+
+import webpackContext from '@project-root/webpack-context'
 
 // modules
 
-import contextHelper from './helpers/context-helper'
-import assignJsMinify from '@usn/un-web/new-webpack/config-assigns/assign-js-minify';
 
 /**
  * @param {Object} [context={}]
  * @param {Object} [configOverrides={}]
  * @param {Object} [options={}]
- * @param {ProjectConfig} [options.projectConfig]
  * @return {Object}
  */
 export function WebpackConfigDist(context={}, configOverrides={}, options={}) {
-  context = contextHelper(context);
 
   const {
     appRootPath, // may not work with PM2
@@ -38,9 +37,11 @@ export function WebpackConfigDist(context={}, configOverrides={}, options={}) {
 
   } = options;
 
-  const config = new WebpackConfigBase(context, configOverrides, options);
+  const config = new WebpackConfigBase(webpackContext, configOverrides, options);
 
   assignJsMinify(context, config);
+  
+  // find styles rule
 
   return config;
 }

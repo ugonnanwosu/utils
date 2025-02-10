@@ -1,5 +1,6 @@
 // libs
 import _ from 'lodash'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 // relative modules
 import CSSLoader from '../loaders/css-loader'
@@ -8,7 +9,6 @@ import sassLoader from '../loaders/sass-loader'
 // modules
 import projectConfig from '@project-root/project-config'
 import webpackContext from '@project-root/webpack-context'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 const {
   includePaths,
@@ -37,11 +37,13 @@ export function assignStyleRules(context={}, config={}, options={}) {
   });
 
   options = _.defaults({...options}, {
-
+    isDevelopment: false,
+    isProduction: false,
   });
 
   const {
-
+    isDevelopment,
+    isProduction,
   } = options;
 
   config.module.rules.push(...[
@@ -49,8 +51,9 @@ export function assignStyleRules(context={}, config={}, options={}) {
       test: /\.(sa|sc|c)ss$/,
       exclude: /\.module\.(s)?css$/,
       use: [
+        // NOTE - for CSS HMR to work MiniCssExtractPlugin must be reomved from dev builds
         MiniCssExtractPlugin.loader,
-        // 'style-loader',
+        'style-loader',
         CSSLoader, sassLoader
       ],
       include: [

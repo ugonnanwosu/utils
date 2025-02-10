@@ -3,18 +3,19 @@ import _ from 'lodash'
 
 // relative modules
 import contextHelper from './helpers/context-helper'
-import assignProgressBar from './config-assigns/assign-progress-bar';
+import assignProgressBar from './config-assigns/assign-progress-bar'
 
 import assignGitDefines from './config-assigns/assign-git-defines'
 import assignStyleRules from './config-assigns/assign-style-rules'
 import ecmaScriptRule from './rules/ecmascript-rule'
 import assetResourceRule from './rules/asset-resource-rule'
 
+import assignWebpackManifest from './config-assigns/assign-webpack-manifest'
+import assignPreventCircDeps from './config-assigns/assign-prevent-circ-deps'
+
 // modules
 
 import projectConfig from '@project-root/project-config'
-import assignWebpackManifest from '@usn/un-web/new-webpack/config-assigns/assign-webpack-manifest';
-import assignPreventCircDeps from '@usn/un-web/new-webpack/config-assigns/assign-prevent-circ-deps';
 
 /**
  * @param {Object} [context={}]
@@ -23,8 +24,6 @@ import assignPreventCircDeps from '@usn/un-web/new-webpack/config-assigns/assign
  * @return {Object}
  */
 export function WebpackConfigBase(context={}, configOverrides={}, options={}) {
-  context = contextHelper(context);
-
   configOverrides = _.defaultsDeep({...configOverrides}, {
 
   });

@@ -5,8 +5,8 @@ import _ from 'lodash'
 
 // modules
 import WebpackDefines from '@usn/utils/constants/webpack-defines'
-import LocalWebpackDefines from '@usn/un-web/constants/webpack-defines'
 
+import LocalWebpackDefines from '@project-root/constants/webpack-defines'
 import webpackContext from '@project-root/webpack-context'
 
 const {

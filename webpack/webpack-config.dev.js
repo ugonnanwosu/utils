@@ -1,25 +1,22 @@
 // libs
 import appRootPath from 'app-root-path'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
 import _ from 'lodash'
 
 // relative modules
 import WebpackConfigBase from './webpack-config.base'
+import assignHmr from './config-assigns/assign-hmr'
 
 // modules
-
-import contextHelper from './helpers/context-helper'
-import assignHmr from '@usn/un-web/new-webpack/config-assigns/assign-hmr'
 
 /**
  * @param {Object} [context={}]
  * @param {Object} [configOverrides={}]
  * @param {Object} [options={}]
- * @param {ProjectConfig} [options.projectConfig]
  * @return {Object}
  */
 export function WebpackConfigDev(context={}, configOverrides={}, options={}) {
-  context = contextHelper(context);
 
   const {
     appRootPath, // may not work with PM2
@@ -49,6 +46,15 @@ export function WebpackConfigDev(context={}, configOverrides={}, options={}) {
   const config = new WebpackConfigBase(context, configOverrides, options);
 
   assignHmr(context, config);
+
+  const styleRule = _.find(config.module.rules, ({ test }) => {
+    return _.isEqual(test, /\.(sa|sc|c)ss$/);
+  });
+
+  if (styleRule) {
+    // This allow HMR to work with CSS on dev builds
+    _.pullAll(styleRule.use, [MiniCssExtractPlugin.loader]);
+  }
 
   return config;
 }
