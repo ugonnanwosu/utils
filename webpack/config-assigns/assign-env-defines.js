@@ -13,12 +13,11 @@ import webpackContext from '@project-root/webpack-context'
  * @param {Object} [options={}]
  * @return {Object}
  */
-export function assignGitDefines(context={}, config={}, options={}) {
+export function assignEnvDefines(context={}, config={}, options={}) {
 
   context = _.defaults(context, webpackContext);
 
   const {
-    GitRevisionPlugin,
     webpack,
   } = context;
 
@@ -34,18 +33,15 @@ export function assignGitDefines(context={}, config={}, options={}) {
 
   } = options;
 
-  const gitRevisionPlugin = new GitRevisionPlugin();
-
   config.plugins.push(...[
     new webpack.DefinePlugin({
-      GIT_VERSION: JSON.stringify(gitRevisionPlugin.version()),
-      GIT_COMMIT_HASH: JSON.stringify(gitRevisionPlugin.commithash()),
-      GIT_BRANCH: JSON.stringify(gitRevisionPlugin.branch()),
-      GIT_LAST_COMMIT_DATETIME: JSON.stringify(gitRevisionPlugin.lastcommitdatetime()),
+      PRODUCTION: false,
+      DEVELOPMENT: false,
+      IS_WEBPACKED: true,
     }),
   ]);
 
   return config;
 }
 
-export default assignGitDefines
+export default assignEnvDefines
