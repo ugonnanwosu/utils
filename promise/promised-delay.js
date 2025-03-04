@@ -27,7 +27,7 @@ export function PromisedDelay(func, delay=0, options={}) {
     promise,
     resolve,
     reject,
-  } = WrappedPromise;
+  } = new WrappedPromise();
 
   const delayId = delayFn(() => {
     func();
