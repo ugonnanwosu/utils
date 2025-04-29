@@ -1,9 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-import some from 'lodash/some'
+import _ from 'lodash'
 
 // relative modules
 
@@ -18,7 +14,7 @@ import some from 'lodash/some'
  * @param {boolean} [options.useHash]
  */
 export function adjust(col, amount,  options={}) {
-  options = defaults(options, {
+  options = _.defaults(options, {
     useHash: false,
   });
 
@@ -32,7 +28,7 @@ export function adjust(col, amount,  options={}) {
     col = col.slice(1);
   }
 
-  const shouldUseHash = some([
+  const shouldUseHash = _.some([
     colStartsWithHash,
     useHash,
   ]);

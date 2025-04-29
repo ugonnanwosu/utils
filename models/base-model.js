@@ -1,35 +1,22 @@
 // libs
 import EventEmitter from 'wolfy87-eventemitter'
-
-// libs [lodash]
-import _get from 'lodash/get'
-import _set from 'lodash/set'
-import castArray from 'lodash/castArray'
-import clone from 'lodash/clone'
-import defaults from 'lodash/defaults'
-import each from 'lodash/each'
-import extend from 'lodash/extend'
-import isArray from 'lodash/isArray'
-import isEqual from 'lodash/isEqual'
-import isObject from 'lodash/isObject'
-import isString from 'lodash/isString'
-import zipObject from 'lodash/zipObject'
+import _ from 'lodash';
 
 // relative modules
 
 // modules
 
 export const EVENTS = {
-  CHANGE: 'CHANGE',
-  SET: 'SET',
+  CHANGE: 'change',
+  SET: 'set',
 }
 
 /**
- * @param {Object} store
+ * @param {Object} [store={}]
  * @param {Object} [options={}]
  */
-export function BaseModel(store, options={}) {
-  options = defaults({...options}, {
+export function BaseModel(store={}, options={}) {
+  options = _.defaults({...options}, {
 
   });
 
@@ -41,19 +28,27 @@ export function BaseModel(store, options={}) {
 
   this.isInitial = true;
 
-  extend(this, new EventEmitter());
+  _.extend(this, new EventEmitter());
 
   const storeProxy = new Proxy(store, {
 
+    /**
+     *
+     * @param obj
+     * @param [prop]
+     * @param [value]
+     * @returns {boolean}
+     */
     set: function (obj, prop, value) {
 
-      const previous = previousStore[prop];
+      const previous = _.clone(previousStore[prop]);
 
-      if (isEqual(previous, value)) {
-        return true;
+      if (_.isEqual(previous, value)) {
+        // FIXME
+        // return true;
       }
 
-      previousStore[prop] = clone(obj[prop]);
+      previousStore[prop] = obj[prop];
       obj[prop] = value;
 
       return true;
@@ -72,8 +67,25 @@ export function BaseModel(store, options={}) {
     return { ...storeProxy };
   }
 
-  function set(attributes, values, options={}) {
-    options = defaults(options, {
+  /**
+   *
+   * @param {Object|*} attributes
+   * @param {*} [values] - is options if `attributes` is an object
+   * @param {Object} [options={}]
+   */
+  function set(attributes, values={}, options={}) {
+
+    this.isInitial = false;
+
+    if (_.isString(attributes)) {
+      attributes = {[attributes]: values};
+    } else if (_.isArray(attributes)) {
+      attributes = _.zipObject(attributes, _.castArray(values));
+    } else if (_.isObject(attributes)) {
+      // options = values;
+    }
+
+    options = _.defaults({...options}, {
       silent: false,
       trace: new Error().stack,
     });
@@ -83,18 +95,8 @@ export function BaseModel(store, options={}) {
       trace,
     } = options;
 
-    this.isInitial = false;
-
-    if (isString(attributes)) {
-      attributes = {[attributes]: values};
-    } else if (isArray(attributes)) {
-      attributes = zipObject(attributes, castArray(values));
-    } else if (isObject(attributes)) {
-      /**/
-    }
-
-    each(attributes, (value, prop) => {
-      _set(storeProxy, prop, value);
+    _.each(attributes, (value, prop) => {
+      _.set(storeProxy, prop, value);
 
       if (!silent) {
         this.emit(`${EVENTS.CHANGE}:${prop}`, {
@@ -110,11 +112,13 @@ export function BaseModel(store, options={}) {
     if (!silent) {
       this.emit(EVENTS.CHANGE, {
         changes: attributes,
+        values,
         trace,
       });
 
       this.emit(EVENTS.SET, {
         changes: attributes,
+        values,
         trace,
       });
     }
@@ -126,10 +130,10 @@ export function BaseModel(store, options={}) {
    * @returns {*}
    */
   function get(attribute) {
-    return _get(storeProxy, attribute);
+    return _.get(storeProxy, attribute);
   }
 
-  extend(this, {
+  _.extend(this, {
     toJSON,
     set,
     get,

@@ -1,19 +1,10 @@
 // libs
-
-//  libs [lodash]
-import extend from 'lodash/extend'
-import defaults from 'lodash/defaults'
-import isUndefined from 'lodash/isUndefined'
-import some from 'lodash/some'
-import isArray from 'lodash/isArray'
-import castArray from 'lodash/castArray'
-import defaultTo from 'lodash/defaultTo'
+import _ from 'lodash'
 
 // relative modules
 
 // modules
 import isNode from '@usn/utils/dom/is-node'
-import fallbackTo from '@usn/utils/misc/fallback-to'
 import clientEnv from '@env'
 
 /**
@@ -26,7 +17,7 @@ import clientEnv from '@env'
 function getEnv(lookup, options={}) {
   const { debug } = options;
   let val = isNode() ? process.env[lookup] : clientEnv[lookup];
-  val = defaultTo(val, clientEnv[lookup]);
+  val = _.defaultTo(val, clientEnv[lookup]);
   return val;
 }
 
@@ -38,7 +29,7 @@ function getEnv(lookup, options={}) {
  */
 function env(lookup, fallback, options={}) {
 
-  options = defaults(options, {
+  options = _.defaults(options, {
     debug: false,
   });
 
@@ -50,15 +41,15 @@ function env(lookup, fallback, options={}) {
 
   }
 
-  if (isArray(lookup)) {
-    const _fallback = isArray(fallback) ? fallback : [];
+  if (_.isArray(lookup)) {
+    const _fallback = _.isArray(fallback) ? fallback : [];
     return lookup.map((key, i) => {
       const value = getEnv(key, options);
-      return !isUndefined(value) ? value : fallback;
+      return !_.isUndefined(value) ? value : fallback;
     });
   } else {
     const value = getEnv(lookup, options);
-    const resp = !isUndefined(value) ? value : fallback;
+    const resp = !_.isUndefined(value) ? value : fallback;
     return resp;
   }
 
@@ -71,7 +62,7 @@ function env(lookup, fallback, options={}) {
  */
 function int(lookup, fallback) {
   const value = getEnv(lookup);
-  const input = !isUndefined(value) ? value : fallback;
+  const input = !_.isUndefined(value) ? value : fallback;
   return parseInt(input, 10);
 }
 
@@ -82,7 +73,7 @@ function int(lookup, fallback) {
  */
 function float(lookup, fallback) {
   const value = getEnv(lookup);
-  const input = !isUndefined(value) ? value : fallback;
+  const input = !_.isUndefined(value) ? value : fallback;
   return parseFloat(input);
 }
 
@@ -93,12 +84,12 @@ function float(lookup, fallback) {
  */
 function bool(lookup, fallback) {
   const value = getEnv(lookup);
-  const isTrue = some([
+  const isTrue = _.some([
     value === 'true',
     value === true,
   ]);
 
-  const resp = !isUndefined(value) ? isTrue : fallback;
+  const resp = !_.isUndefined(value) ? isTrue : fallback;
 
   return resp;
 }
@@ -127,8 +118,8 @@ function json(lookup, fallback={}) {
  * @param {int} [fallback]
  */
 function array(lookup, fallback) {
-  const value = castArray(getEnv(lookup));
-  const resp = !isUndefined(value) ? value : fallback;
+  const value = _.castArray(getEnv(lookup));
+  const resp = !_.isUndefined(value) ? value : fallback;
   return resp;
 }
 
@@ -139,11 +130,11 @@ function array(lookup, fallback) {
  */
 function date(lookup, fallback=new Date()) {
   const value = new Date(getEnv(lookup));
-  const resp = !isUndefined(value) ? new Date(value) : new Date(fallback);
+  const resp = !_.isUndefined(value) ? new Date(value) : new Date(fallback);
   return resp;
 }
 
-extend(env, {
+_.extend(env, {
   int,
   float,
   bool,

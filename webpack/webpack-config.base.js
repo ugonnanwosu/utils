@@ -2,9 +2,14 @@
 import _ from 'lodash'
 
 // relative modules
-import contextHelper from './helpers/context-helper'
+import getVersionEnvVars from './env-vars/get-version-env-vars'
+import getGitEnvVars from './env-vars/get-git-env-vars'
+import getWebpackEnvVars from './env-vars/get-webpack-env-vars'
+
 import assignProgressBar from './config-assigns/assign-progress-bar'
 
+import assignPackageDefines from './config-assigns/assign-package-defines'
+import assignEnvDefines from './config-assigns/assign-env-defines'
 import assignGitDefines from './config-assigns/assign-git-defines'
 import assignStyleRules from './config-assigns/assign-style-rules'
 import ecmaScriptRule from './rules/ecmascript-rule'
@@ -66,20 +71,6 @@ export function WebpackConfigBase(context={}, configOverrides={}, options={}) {
       ],
     },
 
-    optimization: {
-      splitChunks: {
-        chunks: 'all',
-        maxInitialRequests: Infinity,
-        minSize: 0,
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendor',
-          }
-        }
-      }
-    },
-
     output: {
       path: `${appRootPath}/web/client`,
       publicPath: '/',
@@ -106,19 +97,33 @@ export function WebpackConfigBase(context={}, configOverrides={}, options={}) {
       alias: {
         ...projectConfig.moduleAliases,
       },
-    },
+    }
 
   }, configOverrides);
 
   // assign / extensions
 
-  assignGitDefines(context, config);
+  // assignGitDefines(context, config);
+  // assignEnvDefines(context, config);
+  // assignPackageDefines(context, config);
+
   assignStyleRules(context, config);
   assignProgressBar(context, config);
-  assignWebpackManifest(context, config);
+
+  // assignWebpackManifest(context, config);
+
   assignPreventCircDeps(context, config);
 
-  return config;
+  const gitEnvVars = getGitEnvVars(context);
+  const versionEnvVars = getVersionEnvVars(context);
+  const webpackEnvVars = getWebpackEnvVars(context);
+
+  const envVars = _.merge({}, gitEnvVars, versionEnvVars, webpackEnvVars);
+
+  return {
+    config,
+    envVars,
+  };
 }
 
 export default WebpackConfigBase

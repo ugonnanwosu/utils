@@ -36,7 +36,7 @@ export function assignEnvDefines(context={}, config={}, options={}) {
   config.plugins.push(...[
     new webpack.DefinePlugin({
       PRODUCTION: false,
-      DEVELOPMENT: false,
+      // DEVELOPMENT: false,
       IS_WEBPACKED: true,
     }),
   ]);

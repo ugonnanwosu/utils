@@ -1,11 +1,8 @@
 // libs
-
-// lodash libs
-import some from 'lodash/some'
-import isNil from 'lodash/isNil'
+import _ from 'lodash'
 
 // modules
-import {requiredError} from '@usn/utils/validators/validator-utils'
+import { requiredError } from '@usn/utils/validators/validator-utils'
 
 export function isHex(prop) {
   return (
@@ -38,7 +35,7 @@ export function isHSLA(prop) {
 }
 
 export function isColour(prop) {
-  return some([
+  return _.some([
     isHex(prop),
     isHSL(prop),
     isHSLA(prop),
@@ -50,7 +47,7 @@ export function isColour(prop) {
 export function factoryColour(isRequired) {
   return function (props, propName, componentName, location) {
     const prop = props[propName];
-    if (isNil(prop)) {
+    if (_.isNil(prop)) {
       if (isRequired) {
         return requiredError(props, propName, componentName, location);
       } else {
@@ -70,7 +67,7 @@ export function factoryColour(isRequired) {
 export function factoryHex(isRequired) {
   return function (props, propName, componentName, location) {
     const prop = props[propName];
-    if (isNil(prop)) {
+    if (_.isNil(prop)) {
       if (isRequired) {
         return requiredError(props, propName, componentName, location);
       } else {
@@ -90,7 +87,7 @@ export function factoryHex(isRequired) {
 export function factoryHSL(isRequired) {
   return function (props, propName, componentName, location) {
     const prop = props[propName];
-    if (isNil(prop)) {
+    if (_.isNil(prop)) {
       if (isRequired) {
         return requiredError(props, propName, componentName, location);
       } else {
@@ -110,7 +107,7 @@ export function factoryHSL(isRequired) {
 export function factoryHSLA(isRequired) {
   return function (props, propName, componentName, location) {
     const prop = props[propName];
-    if (isNil(prop)) {
+    if (_.isNil(prop)) {
       if (isRequired) {
         return requiredError(props, propName, componentName, location);
       } else {
@@ -130,7 +127,7 @@ export function factoryHSLA(isRequired) {
 export function factoryRGB(isRequired) {
   return function (props, propName, componentName, location) {
     const prop = props[propName];
-    if (isNil(prop)) {
+    if (_.isNil(prop)) {
       if (isRequired) {
         return requiredError(props, propName, componentName, location);
       } else {
@@ -150,7 +147,7 @@ export function factoryRGB(isRequired) {
 export function factoryRGBA(isRequired) {
   return function (props, propName, componentName, location) {
     const prop = props[propName];
-    if (isNil(prop)) {
+    if (_.isNil(prop)) {
       if (isRequired) {
         return requiredError(props, propName, componentName, location);
       } else {

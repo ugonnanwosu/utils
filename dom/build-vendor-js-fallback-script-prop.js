@@ -1,7 +1,5 @@
 // libs
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
+import _ from 'lodash';
 
 // relative modules
 
@@ -15,7 +13,7 @@ import defaults from 'lodash/defaults'
  * @return {Array}
  */
 export function buildVendorJsFallbackScriptProp(options={}) {
-  options = defaults(options, {
+  options = _.defaults(options, {
 
   });
 
@@ -33,9 +31,9 @@ window.${windowDef} || document.write('<script crossorigin src="${fallbackSrc}">
     {
       src: vendorSrc,
     },
-    {
-      content,
-    }
+    // {
+    //   content,
+    // }
   ]
 }
 

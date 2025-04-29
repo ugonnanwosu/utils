@@ -1,10 +1,10 @@
 // libs
-import defaults from 'lodash/defaults'
+import _ from 'lodash';
 
 // modules
 
 export function containMinLeft(options={}) {
-  options = defaults({ ...options }, {
+  options = _.defaults({ ...options }, {
     gutter: 0,
   });
 

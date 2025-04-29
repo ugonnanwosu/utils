@@ -1,5 +1,5 @@
 // libs
-import defaults from 'lodash/defaults'
+import _ from 'lodash';
 
 // modules
 
@@ -11,7 +11,7 @@ import defaults from 'lodash/defaults'
  * @return {number}
  */
 export function containMaxRight(options={}) {
-  options = defaults({ ...options }, {
+  options = _.defaults({ ...options }, {
     gutter: 0,
   });
 

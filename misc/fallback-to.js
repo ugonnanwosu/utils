@@ -1,14 +1,6 @@
 // libs
 import _ from 'lodash'
 
-// lodash
-import defaults from 'lodash/defaults'
-import find from 'lodash/find'
-import isNil from 'lodash/isNil'
-import isEmpty from 'lodash/isEmpty'
-import trim from 'lodash/trim'
-import every from 'lodash/every'
-
 /**
  *
  * @param {Array} [arr=[]]
@@ -17,7 +9,7 @@ import every from 'lodash/every'
  * @return {*}
  */
 export function fallbackTo(arr=[], options={}) {
-  options = defaults(options, {
+  options = _.defaults(options, {
     allowEmpty: true,
   });
 
@@ -25,19 +17,19 @@ export function fallbackTo(arr=[], options={}) {
     allowEmpty,
   } = options;
 
-  return find(arr, (val) => {
+  return _.find(arr, (val) => {
 
     const conditions = [
-      !isNil(val),
+      !_.isNil(val),
     ];
 
     if (!allowEmpty) {
       conditions.push(
-        !isEmpty(trim(val)),
+        !_.isEmpty(_.trim(val)),
       )
     }
 
-    return every(conditions);
+    return _.every(conditions);
   });
 }
 

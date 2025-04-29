@@ -1,14 +1,6 @@
 // libs
 import _ from 'lodash'
 
-// libs [lodash]
-import isEmpty from 'lodash/isEmpty'
-import reduce from 'lodash/reduce'
-import includes from 'lodash/includes'
-import some from 'lodash/some'
-import every from 'lodash/every'
-import trim from 'lodash/trim'
-
 /**
  *
  * @param {Array} input

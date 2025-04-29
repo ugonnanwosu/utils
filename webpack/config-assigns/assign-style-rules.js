@@ -48,13 +48,13 @@ export function assignStyleRules(context={}, config={}, options={}) {
 
   config.module.rules.push(...[
     {
-      test: /\.(sa|sc|c)ss$/,
-      exclude: /\.module\.(s)?css$/,
+      test: /\.(s)?css$/,
+      exclude: [ /\.module\.(s)?css$/ ],
       use: [
-        // NOTE - for CSS HMR to work MiniCssExtractPlugin must be reomved from dev builds
+        // NOTE - for CSS HMR to work MiniCssExtractPlugin must be removed from dev builds
         MiniCssExtractPlugin.loader,
         'style-loader',
-        CSSLoader, sassLoader
+        CSSLoader, sassLoader,
       ],
       include: [
         ...includePaths,

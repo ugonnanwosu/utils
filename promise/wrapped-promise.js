@@ -1,7 +1,5 @@
 // libs
-import defaults from 'lodash/defaults'
-import extend from 'lodash/extend'
-import noop from 'lodash/noop'
+import _ from 'lodash'
 
 // modules
 
@@ -30,7 +28,7 @@ const PROMISE_STATUSES = {
  * @return {WrappedPromise}
  */
 export function WrappedPromise(options={}) {
-  options = defaults(options, {
+  options = _.defaults(options, {
     suppressRejectError: true,
     debug: false,
   });
@@ -40,8 +38,8 @@ export function WrappedPromise(options={}) {
     debug,
   } = options;
 
-  let rejectPromise = noop;
-  let resolvePromise = noop;
+  let rejectPromise = _.noop;
+  let resolvePromise = _.noop;
   let status = PROMISE_STATUSES.PENDING;
 
   const promise = new Promise((resolve, reject) => {
@@ -63,14 +61,14 @@ export function WrappedPromise(options={}) {
     promise,
     status,
     resolve: (reason) => {
-      extend(wrappedPromise, {
+      _.extend(wrappedPromise, {
         status: PROMISE_STATUSES.FULFILLED,
       });
 
       resolvePromise(reason);
     },
     reject: (reason) => {
-      extend(wrappedPromise, {
+      _.extend(wrappedPromise, {
         status: PROMISE_STATUSES.REJECTED,
       });
       rejectPromise(reason);

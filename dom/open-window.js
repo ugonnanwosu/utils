@@ -1,14 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-import map from 'lodash/map'
-import pick from 'lodash/pick'
-import reduce from 'lodash/reduce'
-import some from 'lodash/some'
-import isEmpty from 'lodash/isEmpty'
-import trim from 'lodash/trim'
+import _ from 'lodash'
 
 // relative modules
 
@@ -33,9 +24,9 @@ export function openWindow(options={}) {
     return;
   }
 
-  const windowOptions = pick(window, windowProps);
+  const windowOptions = _.pick(window, windowProps);
 
-  options = defaults({ ...options }, {
+  options = _.defaults({ ...options }, {
     ...windowOptions,
     target: '_blank',
   });
@@ -45,27 +36,21 @@ export function openWindow(options={}) {
     target,
   } = options;
 
-  const shouldAbort = some([
-    isEmpty(trim(url)),
+  const shouldAbort = _.some([
+    _.isEmpty(_.trim(url)),
   ]);
 
   if (shouldAbort) {
     return;
   }
 
-  const windowFeatures = pick(options, windowProps);
+  const windowFeatures = _.pick(options, windowProps);
 
-  const windowFeaturesArr = map(windowFeatures, (val, key) => {
+  const windowFeaturesArr = _.map(windowFeatures, (val, key) => {
     return `${key}=${val}`
   }, []);
 
   const windowFeaturesStr = windowFeaturesArr.join(',');
-
-  console.log({
-    windowFeaturesStr,
-    url,
-    target,
-  });
 
   // window.open(url, target, windowFeaturesStr);
 }

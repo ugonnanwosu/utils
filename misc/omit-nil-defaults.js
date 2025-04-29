@@ -1,8 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
+import _ from 'lodash';
 
 // relative modules
 
@@ -15,7 +12,7 @@ import omitNilEmpty from '@usn/utils/object/omit-nil-empty'
  * @param {Object} [options={}]
  */
 export function omitNilDefaults(input={}, options={}) {
-  const resp = defaults(omitNilEmpty({ ...input }), { ...options });
+  const resp = _.defaults(omitNilEmpty({ ...input }), { ...options });
   return resp;
 }
 

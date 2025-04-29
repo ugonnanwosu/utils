@@ -1,7 +1,5 @@
 // libs
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
+import _ from 'lodash';
 
 // relative modules
 import isBrowser from './is-browser'
@@ -14,7 +12,7 @@ import isBrowser from './is-browser'
  * @return {Object}
  */
 export function getBootstrap(options={}) {
-  options = defaults(options, {
+  options = _.defaults(options, {
 
   });
 

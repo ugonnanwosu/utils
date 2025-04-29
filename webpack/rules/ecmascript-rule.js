@@ -29,7 +29,7 @@ const ecmaScriptRule = {
       },
     ],
     include: [
-      ...projectConfig.includePaths,
+      ...projectConfig?.includePaths,
     ],
     exclude: [
       /webpack\/runtime/,

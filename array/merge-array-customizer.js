@@ -1,9 +1,6 @@
 // libs
 import _ from 'lodash'
 
-// libs [lodash]
-import isArray from 'lodash/isArray'
-
 /**
  *
  * @param {Array} objValue

@@ -2,6 +2,7 @@
 
 import _ from 'lodash'
 import TerserPlugin from 'terser-webpack-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 
 // relative modules
 
@@ -22,8 +23,11 @@ export function assignJsMinify(context={}, config={}) {
 
   _.merge(config, {
     optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin()],
+      // minimize: true,
+      minimizer: [
+        new TerserPlugin(),
+        // new CssMinimizerPlugin(),
+      ],
     },
   });
 

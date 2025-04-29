@@ -41,9 +41,11 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "circular-dependency-plugin": "^5.2.2",
     "config": "^3.3.12",
+    "css-minimizer-webpack-plugin": "^7.0.2",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
     "git-revision-webpack-plugin": "^5.0.0",
+    "ifdef-loader": "^2.3.2",
     "mini-css-extract-plugin": "^2.9.2",
     "minimist": "^1.2.8",
     "nps": "^5.10.0",
@@ -54,6 +56,7 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "terser-webpack-plugin": "^5.3.11",
     "webpack": "^5.94.0",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
     "webpack-manifest-plugin": "^5.0.0",
     "webpackbar": "^6.0.1"
@@ -63,7 +66,6 @@
     "nps": "nps",
     "test": "babel-node test.js --ignore ' ' --config-file ./babel.config.js",
     "debug": "babel-node debug.js --ignore ' ' --config-file ./babel.config.js",
-    "webpack-dist": "rm -rf web/client/dist && node_modules/webpack/bin/webpack.js --config old-webpack/webpack.config.dist.js",
     "reinstall-usn": "rm -rf node_modules/@usn && npm install"
   },
   "private": true

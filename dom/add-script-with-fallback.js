@@ -1,10 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-import extend from 'lodash/extend'
-import uniqueId from 'lodash/uniqueId'
+import _ from 'lodash'
 
 // relative modules
 import addScript from './add-script'
@@ -18,17 +13,19 @@ import isBrowser from '@usn/utils/dom/is-browser'
  * @param {Object} [options={}]
  * @param {string} options.src
  * @param {string} options.fallbackSrc - global/window variable
+ * @param {string} [options.auxSrc] - global/window variable
  * @param {string} [options.root] - global/window variable
  * @return {Promise}
  */
 export function addScriptWithFallback(options={}) {
-  options = defaults({...options}, {
+  options = _.defaults({...options}, {
 
   });
 
   const {
     src,
     fallbackSrc,
+    auxSrc,
     root,
   } = options;
 
@@ -60,7 +57,16 @@ export function addScriptWithFallback(options={}) {
       resolve(window[root]);
     })
     .catch((error) => {
-      const err = new Error(`Failed to load src "${src}", or fallbackSrc, "${fallbackSrc}"`);
+      return addScript({
+        src: auxSrc,
+        root,
+      })
+    })
+    .then(() => {
+      resolve(window[root]);
+    })
+    .catch((error) => {
+      const err = new Error(`Failed to load src "${src}", fallbackSrc "${fallbackSrc}" & auxSrc "${auxSrc}" `);
       reject(err);
     })
     .finally(() => {

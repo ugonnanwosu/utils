@@ -1,6 +1,6 @@
 // libs
-import last from 'lodash/last'
-import Express from 'express' // kept for jsdoc
+import _ from 'lodash'
+import Express from 'express'
 
 /**
  * @param {Express.Request} req
@@ -10,7 +10,7 @@ import Express from 'express' // kept for jsdoc
  */
 function useStripTrailingSlash(req, res, next) {
   const test = /\?[^]*\//.test(req.url);
-  if (last(req.url) === '/' && req.url.length > 1 && !test) {
+  if (_.last(req.url) === '/' && req.url.length > 1 && !test) {
     res.redirect(301, req.url.slice(0, -1));
   } else {
     next();

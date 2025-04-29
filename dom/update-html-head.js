@@ -1,7 +1,5 @@
 // libs
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
+import _ from 'lodash'
 
 // relative modules
 
@@ -11,23 +9,43 @@ import isBrowser from '@usn/utils/dom/is-browser'
 /**
  * @param {Object} [options={}]
  * @param {string} [options.title]
- * @param {string} [options.favicon]
+ * @param {string} [options.faviconSrc]
  */
 export function updateHtmlHead(options={}) {
-  options = defaults(options, {
+  options = _.defaults({...options}, {
 
   });
 
   const {
-
+    title,
+    faviconSrc,
   } = options;
+
+  const hasTitle = !_.isEmpty(_.trim(title));
+  const hasFavicon = !_.isEmpty(_.trim(faviconSrc));
 
   if (!isBrowser()) {
     return
   }
 
+  const faviconNodes = document.querySelectorAll('link[rel="shortcut icon"]') || [];
 
-  document.querySelector('title').textContent = newPageTitle;
+  if (hasFavicon) {
+    faviconNodes.forEach((node) => {
+      node.remove();
+    });
+
+    const link = document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = faviconSrc;
+
+    document.getElementsByTagName('head')[0].appendChild(link);
+  }
+
+  if (hasTitle) {
+    document.querySelector('title').textContent = title;
+  }
 
 }
 

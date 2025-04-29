@@ -1,9 +1,6 @@
 
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
+import _ from 'lodash';
 
 // relative modules
 import lightenDarken from './lighten-darken'
@@ -18,7 +15,7 @@ import lightenDarken from './lighten-darken'
  * @param {boolean} [options.useHash=false]
  */
 export function darken(col, amount, options={}) {
-  options = defaults(options, {
+  options = _.defaults(options, {
     useHash: false,
   });
 

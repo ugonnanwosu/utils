@@ -1,9 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-import extend from 'lodash/extend'
+import _ from 'lodash'
 
 // relative modules
 
@@ -20,7 +16,7 @@ import isBrowser from '@usn/utils/dom/is-browser'
  * @return {Promise}
  */
 export function addScript(options={}) {
-  options = defaults({...options}, {
+  options = _.defaults({...options}, {
     content: '',
   });
 
@@ -45,7 +41,7 @@ export function addScript(options={}) {
 
   script.innerHTML = `${content}`;
 
-  extend(script, {
+  _.extend(script, {
     type: 'text/javascript',
     src,
   });

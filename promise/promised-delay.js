@@ -1,21 +1,24 @@
 // libs
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-import delayFn from 'lodash/delay'
-
+import _ from 'lodash';
 // relative modules
 
 // modules
 import WrappedPromise from '@usn/utils/promise/wrapped-promise'
 
 /**
+ * @typedef {Object} PromisedDelay
+ * @property {function} abort
+ * @property {Promise} promise
+ */
+
+/**
  * @param {Function} [func]
  * @param {number} [delay=0]
  * @param {Object} [options={}]
+ * @return {PromisedDelay}
  */
 export function PromisedDelay(func, delay=0, options={}) {
-  options = defaults({ ...options }, {
+  options = _.defaults({ ...options }, {
 
   });
 
@@ -29,7 +32,7 @@ export function PromisedDelay(func, delay=0, options={}) {
     reject,
   } = new WrappedPromise();
 
-  const delayId = delayFn(() => {
+  const delayId = _.delay(() => {
     func();
     resolve('complete');
   }, delay);

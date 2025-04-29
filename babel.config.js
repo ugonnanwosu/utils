@@ -50,9 +50,10 @@ const moduleResolverAliases = _.reduce(moduleAliases, (acc, path, key) => {
 
 const babelConfig = {
   ignore,
+  // "sourceType": "unambiguous",
   "presets": [
-    "@babel/preset-env",
-    "@babel/preset-react"
+    // ["@babel/preset-env"],
+    // ["@babel/preset-react"],
   ],
   "plugins": [
     ["module-resolver", {

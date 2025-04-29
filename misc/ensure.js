@@ -1,9 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-import mergeWith from 'lodash/mergeWith'
+import _ from 'lodash'
 
 // relative modules
 
@@ -20,7 +16,7 @@ import castIfNilCustomiser from '@usn/utils/customisers/cast-if-nil-customiser'
  * @return {Object}
  */
 export function ensure(input={}, sources={}, options={}) {
-  options = defaults({ ...options }, {
+  options = _.defaults({ ...options }, {
 
   });
 
@@ -28,7 +24,7 @@ export function ensure(input={}, sources={}, options={}) {
 
   } = options;
 
-  mergeWith(input, sources, castIfNilCustomiser);
+  _.mergeWith(input, sources, castIfNilCustomiser);
 
   return input;
 }

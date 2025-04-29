@@ -1,19 +1,20 @@
 // libs
+import _ from 'lodash'
 
-// libs [lodash]
-import defaults from 'lodash/defaults'
 
 // relative modules
 
 // modules
+import fallbackTo from '@usn/utils/misc/fallback-to'
+
 
 
 /**
- * @param {MouseEvent|TouchEvent} [e]
+ * @param {MouseEvent|TouchEvent|Object} [e]
  * @param {Object} [options={}]
  */
-export function getMousePositionFromEvent(e, options={}) {
-  options = defaults({ ...options }, {
+export function getMousePositionFromEvent(e={}, options={}) {
+  options = _.defaults({ ...options }, {
 
   });
 
@@ -24,11 +25,23 @@ export function getMousePositionFromEvent(e, options={}) {
   const {
     clientX,
     clientY,
+    touches,
+    changedTouches,
   } = e;
 
+  const x = fallbackTo([
+    changedTouches?.[0]?.clientX,
+    clientX,
+  ]);
+
+  const y = fallbackTo([
+    changedTouches?.[0]?.clientY,
+    clientY,
+  ]);
+
   return {
-    x: clientX,
-    y: clientY,
+    x,
+    y,
   }
 }
 

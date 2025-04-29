@@ -1,10 +1,5 @@
 // libs
-
-
-// libs [lodash]
-import defaults from 'lodash/defaults'
-
-// relative modules
+import _ from 'lodash';
 
 // modules
 
@@ -14,7 +9,7 @@ import defaults from 'lodash/defaults'
  * @param {Object} [options={}]
  */
 export function getCircumference(radius, options={}) {
-  options = defaults({ ...options }, {
+  options = _.defaults({ ...options }, {
 
   });
 

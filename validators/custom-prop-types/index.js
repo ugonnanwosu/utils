@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 // modules
 import ColourValidator from '@usn/utils/validators/colour-validator'
 
@@ -13,6 +15,17 @@ CustomPropTypes.children = ChildrenPropTypes
 
 // numbers & maths
 CustomPropTypes.numberString = NumberStringPropTypes
+
+CustomPropTypes.vector2 = PropTypes.shape({
+  x: PropTypes.number,
+  y: PropTypes.number,
+}),
+
+CustomPropTypes.vector2 = PropTypes.shape({
+  x: PropTypes.number,
+  y: PropTypes.number,
+  z: PropTypes.number,
+}),
 
 // colours
 CustomPropTypes.color = ColourValidator.factoryColour(false);
