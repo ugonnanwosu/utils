@@ -4,17 +4,15 @@ import _ from 'lodash';
 // relative modules
 
 // modules
-import omitNilEmpty from '@usn/utils/object/omit-nil-empty'
+import nilMergeDeep from '@usn/utils/object/nil-merge-deep'
 
 
 /**
  * @param {Object} [input={}]
- * @param {Object} [options={}]
+ * @param {Object} [defaults={}]
  */
-export function omitNilDefaultsDeep(input={}, options={}) {
-  const resp = _.defaultsDeep(omitNilEmpty({ ...input }), { ...options });
-
-  console.log(options);
+export function omitNilDefaultsDeep(input={}, defaults={}) {
+  const resp = _.mergeWith({}, input, defaults, nilMergeDeep);
 
   return resp;
 }

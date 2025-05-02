@@ -4,15 +4,15 @@ import _ from 'lodash';
 // relative modules
 
 // modules
-import omitNilEmpty from '@usn/utils/object/omit-nil-empty'
-
+import nilMerge from '@usn/utils/object/nil-merge'
 
 /**
  * @param {Object} [input={}]
- * @param {Object} [options={}]
+ * @param {Object} [defaults={}]
  */
-export function omitNilDefaults(input={}, options={}) {
-  const resp = _.defaults(omitNilEmpty({ ...input }), { ...options });
+export function omitNilDefaults(input={}, defaults={}) {
+  const resp = _.mergeWith({}, input, defaults, nilMerge);
+
   return resp;
 }
 
