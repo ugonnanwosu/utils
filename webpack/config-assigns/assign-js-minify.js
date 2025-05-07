@@ -23,7 +23,7 @@ export function assignJsMinify(context={}, config={}) {
 
   _.merge(config, {
     optimization: {
-      // minimize: true,
+      minimize: true,
       minimizer: [
         new TerserPlugin(),
         // new CssMinimizerPlugin(),
