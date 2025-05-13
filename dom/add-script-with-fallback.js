@@ -12,8 +12,8 @@ import isBrowser from '@usn/utils/dom/is-browser'
 /**
  * @param {Object} [options={}]
  * @param {string} options.src
- * @param {string} options.fallbackSrc - global/window variable
- * @param {string} [options.auxSrc] - global/window variable
+ * @param {string} [options.fallbackSrc] -
+ * @param {string} [options.auxSrc] -
  * @param {string} [options.root] - global/window variable
  * @return {Promise}
  */
@@ -35,6 +35,8 @@ export function addScriptWithFallback(options={}) {
     reject,
   } = new WrappedPromise();
 
+  const hasFallback = !_.isEmpty(_.trim(fallbackSrc));
+
   if (!isBrowser()) {
     reject(new Error('Can only be used in browser'));
     return promise;
@@ -48,10 +50,16 @@ export function addScriptWithFallback(options={}) {
       resolve(window[root]);
     })
     .catch((error) => {
-      return addScript({
-        src: fallbackSrc,
-        root,
-      })
+
+      if (hasFallback) {
+        return addScript({
+          src: fallbackSrc,
+          root,
+        })
+      } else {
+        reject(error);
+      }
+
     })
     .then(() => {
       resolve(window[root]);
