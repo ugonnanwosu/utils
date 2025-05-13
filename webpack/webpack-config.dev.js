@@ -36,6 +36,10 @@ export function WebpackConfigDev(context={}, configOverrides={}, options={}) {
       chunkFilename: '[name].js',
       sourceMapFilename: '[file].map'
     },
+    externals: [
+      'gsap',
+      {  }
+    ]
   });
 
   options = _.defaults({...options}, {
