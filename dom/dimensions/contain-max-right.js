@@ -12,7 +12,7 @@ import _ from 'lodash';
  */
 export function containMaxRight(options={}) {
   options = _.defaults({ ...options }, {
-    gutter: 0,
+    gutter: 10, // accounts for scrollbar and border
   });
 
   const { gutter, width } = options;
