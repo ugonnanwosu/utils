@@ -21,23 +21,32 @@ function getCssVariable(name='', options={}) {
     debug,
   } = options;
 
+  const isEmpty = _.isEmpty(_.trim(name));
+
   const shouldAbort = _.some([
     !isBrowser(),
-    _.isEmpty(_.trim(name)),
+    isEmpty,
   ]);
 
-  if (shouldAbort) {
+  const shouldLogError = _.every([
+    isBrowser(),
+    isEmpty,
+  ]);
+
+  if (shouldLogError) {
     console.error(new Error(`Invalid CSS variable name provided`));
+  }
+  if (shouldAbort) {
     return '';
   }
 
   const kebabName = _.kebabCase(name);
   const value = getComputedStyle(document.documentElement).getPropertyValue(`--${kebabName}`);
 
-  console.log({
-    kebabName,
-    doc: document.documentElement
-  })
+  // console.log({
+  //   kebabName,
+  //   doc: document.documentElement
+  // })
 
   if (!value) {
     // console.error(new Error(`No CCS variable found for ${name}`));
