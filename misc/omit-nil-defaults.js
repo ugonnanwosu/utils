@@ -9,6 +9,7 @@ import nilMerge from '@usn/utils/object/nil-merge'
 /**
  * @param {Object} [input={}]
  * @param {Object} [defaults={}]
+ * @return {Object}
  */
 export function omitNilDefaults(input={}, defaults={}) {
   const resp = _.mergeWith({}, input, defaults, nilMerge);

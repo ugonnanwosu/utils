@@ -10,6 +10,7 @@ import nilMergeDeep from '@usn/utils/object/nil-merge-deep'
 /**
  * @param {Object} [input={}]
  * @param {Object} [defaults={}]
+ * @return {Object}
  */
 export function omitNilDefaultsDeep(input={}, defaults={}) {
   const resp = _.mergeWith({}, input, defaults, nilMergeDeep);
