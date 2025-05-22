@@ -1,0 +1,6 @@
+const ENVIRONMENT_LOCATIONS_CONSTANTS = {
+  LOCAL: 'local',
+  REMOTE: 'remote',
+};
+
+export default ENVIRONMENT_LOCATIONS_CONSTANTS;
