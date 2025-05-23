@@ -48,6 +48,7 @@ export function initIconFont(options={}) {
     name: '[.:name:.]',
     remoteConfigSrc: '', //
     slug: '__slug__',
+
     debug: false,
   });
 
@@ -96,7 +97,6 @@ export function initIconFont(options={}) {
         fetch(remoteConfigSrc, {})
           .then(resp => resp.json())
           .then((data) => {
-            console.log(data);
             resolve(data);
           })
           .catch((error) => {
