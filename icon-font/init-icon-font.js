@@ -2,18 +2,26 @@
 import _ from 'lodash';
 
 // modules
+
+/* utils */
+import env from '@usn/utils/misc/env';
 import WrappedPromise from '@usn/utils/promise/wrapped-promise';
 
-/**
- *
- * @returns {Promise}
- */
-function fallbackFetchConfigFunc() {
-  const { promise, resolve, reject } = new WrappedPromise();
-  const data = {};
-  resolve(data);
-  return promise;
-}
+/* data */
+import ENVIRONMENT from '@usn/utils/constants/environment';
+
+// constants
+
+const {
+  STATES,
+} = ENVIRONMENT;
+
+const [
+  environmentState,
+] = env([
+  'environmentState',
+]);
+
 /**
  * @typedef {Object} InitIconFontAbortCondition
  * @property {function} condition
@@ -24,8 +32,9 @@ function fallbackFetchConfigFunc() {
  *
  * @param {Object} [options={}]
  * @param {Array<InitIconFontAbortCondition>} [options.abortConditions=[]]
- * @param {function} options.fetchConfigFunc
  * @param {string} options.fontFamilyName
+ * @param {string} options.remoteConfigSrc
+ * @param {Promise} options.localConfigImport
  * @param {string} options.name
  * @param {string} options.slug
  * @param {boolean} [options.debug]
@@ -35,19 +44,21 @@ export function initIconFont(options={}) {
 
   options = _.defaults({ ...options }, {
     abortConditions: [],
-    fetchConfigFunc: fallbackFetchConfigFunc,
     fontFamilyName: '[.:fontFamilyName:.]',
     name: '[.:name:.]',
+    remoteConfigSrc: '', //
     slug: '__slug__',
     debug: false,
   });
 
   const {
     abortConditions,
-    fetchConfigFunc,
     fontFamilyName,
+    localConfigImport,
     name,
+    remoteConfigSrc,
     slug,
+
     debug,
   } = options;
 
@@ -56,6 +67,53 @@ export function initIconFont(options={}) {
     reject,
     resolve,
   } = new WrappedPromise();
+
+  function defaultFetchConfigFunc() {
+    const { promise, resolve, reject } = new WrappedPromise();
+    localConfigImport
+      .then((module) => {
+        const data = module?.default;
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+
+    return promise;
+  }
+
+  const configFetchConfigFuncMap = [
+    {
+      condition: environmentState === STATES.DEVELOPMENT,
+      /** @returns {Promise} */
+      fetchConfigFunc: defaultFetchConfigFunc,
+    },
+    {
+      condition: environmentState === STATES.PRODUCTION,
+      /** @returns {Promise} */
+      fetchConfigFunc: () => {
+        const { promise, resolve, reject } = new WrappedPromise();
+        fetch(remoteConfigSrc, {})
+          .then(resp => resp.json())
+          .then((data) => {
+            console.log(data);
+            resolve(data);
+          })
+          .catch((error) => {
+            console.error(error);
+            reject(error);
+          })
+
+        return promise;
+      }
+    },
+    {
+      condition: true,
+      fetchConfigFunc: defaultFetchConfigFunc,
+    }
+  ];
+
+  const fetchConfigFunc = _.find(configFetchConfigFuncMap, 'condition').fetchConfigFunc;
 
   const shouldAbortMap = [
     ...abortConditions,
