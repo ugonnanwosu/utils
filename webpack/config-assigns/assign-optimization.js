@@ -30,6 +30,7 @@ export function assignOptimization(context={}, config={}) {
           vendor: {
             name: 'vendor',
             test: /[\\/]node_modules[\\/]/,
+            chunks: 'all',
           },
 
           styles: {

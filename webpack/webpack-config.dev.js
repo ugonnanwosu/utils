@@ -37,8 +37,11 @@ export function WebpackConfigDev(context={}, configOverrides={}, options={}) {
       sourceMapFilename: '[file].map'
     },
     externals: [
+      {
+        // 'lodash': '_',
+      },
+
       'gsap',
-      {  }
     ]
   });
 
